@@ -2,7 +2,7 @@ const express = require("express");
 const route = require('./routes/auth/route');
 const vehicleroute = require('./routes/vehicle/vehicleroute')
 const imgroute = require('./routes/images/imagesroute')
-const requestRoute = require('./routes/requestRoute/requestRoute')
+// const requestRoute = require('./routes/requestRoute/requestRoute')
 const path = require('path');
 
 require('./database')
@@ -22,7 +22,7 @@ app.use('/API', route);
 app.use('/API',vehicleroute);
 
 app.use('/API',imgroute);
-app.use('/API',requestRoute);
+// app.use('/API',requestRoute);
 
 app.use((req,res,next)=>{
     return next({
@@ -32,7 +32,6 @@ app.use((req,res,next)=>{
 })
 
 app.use((error,req,res,next)=>{
-    console.log(error);
     res.status(error.status || 400)
     res.send({
         message : error.msg || "error",
