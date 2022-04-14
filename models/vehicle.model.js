@@ -30,8 +30,8 @@ let VehicleSchema = new Schema({
         type: String,
         required: true
     },
-    user : Schema.Types.ObjectId,
-    img:String
+    userID : Schema.Types.ObjectId,
+    vehicleImg:String
 })
 
 module.exports = mongoose.model('vehicle',VehicleSchema)
