@@ -71,26 +71,9 @@ const login = (req, res, next) => {
     })
 }
 
-const getUser = (req,res,next)=>{
-    const id = req.params.id;
-    console.log("id",id)
-    UserModel.find({_id : id},(err,users)=>{
-        if(err){
-            return next({
-                msg : err,
-                status : 400
-            })
-        }
-        if(users){
-            res.json({
-                users
-            })
-        }
-    })
-}
+
 
 module.exports = {
     register,
     login,
-    getUser
 }
