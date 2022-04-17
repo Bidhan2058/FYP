@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
 
-let VehicleSchema = new Schema({
+let VehicleSchema = new Schema({  // kaSTO KHALKO DATA RAKHNI 
     vehicleType: {
         type: String
     },
@@ -34,4 +34,5 @@ let VehicleSchema = new Schema({
     vehicleImg:String
 })
 
-module.exports = mongoose.model('vehicle',VehicleSchema)
+module.exports = mongoose.model('vehicle',VehicleSchema) //yesley ley db ma gayera document / table banaidicnah 
+// exporting it to use for finding , editing or deleteting data
