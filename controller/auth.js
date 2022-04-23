@@ -11,27 +11,36 @@ const Generatetoken = (userId) => {
 const register = (req, res, next) => {
     let data = req.body;
     console.log("register",req.body)
-    let user = new UserModel({});
-    userQuery.mapUser(data, user);
-    user.password = passwordHash.generate(data.password)
-    console.log("user model",user.mail);
-    user.save((err, user) => {
-        if (err) {
-            console.log(err);
-            next({
-                msg: "User already registered",
-                status: 400
-            })
-        }
-        else {
-            console.log("Registered successfully");
-            res.json({
-                msg: "Registered successfully",
-                status: 200,
-                data: user
-            })
-        }
+    findUserByMail(req.body.mail).then((response)=>{
+        let user = new UserModel({});
+        userQuery.mapUser(data, user);
+        user.password = passwordHash.generate(data.password)
+        console.log("user model",user.mail);
+        user.save((err, user) => {
+            if (err) {
+                console.log(err);
+                next({
+                    msg: "User already registered",
+                    status: 400
+                })
+            }
+            else {
+                console.log("Registered successfully");
+                res.json({
+                    msg: "Registered successfully",
+                    status: 200,
+                    data: user
+                })
+            }
+        })
     })
+    .catch((error)=>{
+        return next({
+            msg : error,
+            status : 400
+        })
+    })
+   
 
 }
 
@@ -63,11 +72,31 @@ const login = (req, res, next) => {
                 user: user,
                 token,
                 id : user._id,
-                name : user.username
+                name : user.username,
+                fullname : user.fullname,
+                email : user.mail,
+                phone : user.contact.toString()
+
             })
         }
 
 
+    })
+}
+
+const findUserByMail=(email)=>{
+    return new Promise((resolve,reject)=>{
+        UserModel.findOne({mail:email},(err,user)=>{
+            if(err){
+                return reject(err)
+            }
+            if(user){
+             return  reject("User already registered with your mail")
+            }
+            if(!user){
+                resolve(true)
+            }
+        })
     })
 }
 
